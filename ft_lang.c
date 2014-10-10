@@ -34,7 +34,7 @@ t_def				g_dictsh[DICT_LEN] =
 	{NULL, 0, tok_end, tok_unknown, 10}
 };
 
-int			ft_getprior(int type)
+int			ft_get_prior(int type)
 {
 	int		i;
 

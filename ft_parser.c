@@ -15,15 +15,13 @@ int		ft_pushonstack(t_parser_p pars)
 {
     t_token	*tmp;
 
-    if (ft_ldcdsize(pars->oplist))
+    while (ft_ldcdsize(pars->oplist)
+	    && ft_get_prior(pars->tokin->type) >= ft_get_prior(((t_token *)pars->oplist->tail->content)->type))
     {
-	while (ft_get_prior(pars->tokin->type) >= ft_get_prior(((t_token *)pars->oplist->tail->content)->type))
-        {
-	    if (!(tmp = ft_ldcdpop_back(pars->oplist)))
-		return (-1);
-	    if (-1 == ft_ldcdpush_back(pars->oplist, tmp, 0))
+	if (!(tmp = ft_ldcdpop_back(pars->oplist)))
+	 	return (-1);
+        if (-1 == ft_ldcdpush_back(pars->outlist, tmp, 0))
 		return (-2);
-	}
     }
     if (-1 == ft_ldcdpush_back(pars->oplist, pars->tokin, 0))
         return (-2);
@@ -99,10 +97,10 @@ t_parsfunc	g_parsfunc_matrix[NB_PARS_STATES - 1][NB_PARSIN_GROUPS] =
 	      /* usrinfilename	, redir		, cmdarg    , cmd	    , | &&      ||, bg	    ,   ;	, \n	, end*/
 /* start    */{NULL		, NULL		, NULL	    , &pushwno	    , NULL	, NULL	    , &pushwnl	, &pushwnl	, &rpnend},
 /* empty    */{NULL		, &pushwredirarg, &pushwno  , &pushwno	    , &pushwcmd	, &pushwsep , &pushwnl	, &pushwnl	, &rpnend},
+/* wredirarg*/{&pushout		, NULL		, NULL	    , NULL	    , NULL	, NULL	    ,  NULL	,   NULL	,    NULL},
 /* wcmd	    */{NULL		, NULL		, NULL	    , &pushwno	    , NULL	, NULL	    ,   NULL	,   NULL	, NULL},
 /* wcmdorsep*/{NULL		, NULL		, NULL	    , &pushwno	    , NULL	, NULL	    ,  &pushwnl, &pushwnl	, &rpnend},
 /* wcmdornl*/{NULL		, NULL		, NULL	    , &pushwno	    , NULL	, NULL	    ,  NULL	, &pushwnl	, &rpnend},
-/* wredirarg*/{&pushout		, NULL		, NULL	    , NULL	    , NULL	, NULL	    ,  NULL	,   NULL	,    NULL},
 };
 
 t_parser_p  ft_parsernew(t_ldcd toklist)
