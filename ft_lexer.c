@@ -43,7 +43,7 @@ t_lexer_p				ft_lexnew(char *strin)
     return (lex);
 }
 
-const t_lexfunc			g_lexmatrix[16][12] =
+const t_lexfunc			g_lexmatrix[16][11] =
 {
 	/*
 	** inputs:
@@ -51,14 +51,12 @@ const t_lexfunc			g_lexmatrix[16][12] =
 	** > ,
 	** | ,
 	** & ,
-	** ; ,
-	** \n ,
+	** ;\n ,
 	** IFS ,
 	** \ ,
 	** ' ,
 	** " ,
-	** others
-	** ,
+	** others,
 	** \0
 	*/
 		/*
@@ -263,7 +261,6 @@ const t_lexfunc			g_lexmatrix[16][12] =
 			&ft_hinhib,
 			&ft_hinhib,
 			&ft_hinhib,
-			&ft_hinhib,
 			&ft_escape,
 			&ft_hinhib,
 			&ft_unhinhib,
@@ -274,7 +271,6 @@ const t_lexfunc			g_lexmatrix[16][12] =
 		**inhib
 		*/
 		{
-			&ft_inhib,
 			&ft_inhib,
 			&ft_inhib,
 			&ft_inhib,

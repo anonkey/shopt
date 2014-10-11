@@ -4,12 +4,13 @@
 
 int			ft_inhib(t_lexer_p lex)
 {
-    if (lex->state != state_expr && lex->state != state_inhib)
-	ft_flush(lex);
+
     if (lex->state == state_inhib)
 	ft_stack(lex);
     else
     {
+	if (lex->state != state_expr && lex->state != state_inhib && lex->state != state_hinhib)
+		ft_flush(lex);
 	lex->inhiblvl |= INHIB_LVL_MULT;
 	lex->state = state_inhib;
     }

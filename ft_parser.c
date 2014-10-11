@@ -30,7 +30,6 @@ int		ft_pushonstack(t_parser_p pars)
 
 int		pushwno(t_parser_p pars)
 {
-    ft_putendl("\npushwno-------------------------");
     ft_pushonstack(pars);
     pars->state = pstate_wno;
     return (0);
@@ -38,7 +37,6 @@ int		pushwno(t_parser_p pars)
 
 int		pushwredirarg(t_parser_p pars)
 {
-    ft_putendl("\npushwredir-------------------------");
     ft_pushonstack(pars);
     pars->state = pstate_wredirarg;
     return (0);
@@ -46,7 +44,6 @@ int		pushwredirarg(t_parser_p pars)
 
 int		pushwcmd(t_parser_p pars)
 {
-    ft_putendl("\npushwcmd-------------------------");
     ft_pushonstack(pars);
     pars->state = pstate_wcmd;
     return (0);
@@ -54,7 +51,6 @@ int		pushwcmd(t_parser_p pars)
 
 int		pushwsep(t_parser_p pars)
 {
-    ft_putendl("\npushwsep-------------------------");
     ft_pushonstack(pars);
     pars->state = pstate_wsep;
     return (0);
@@ -62,7 +58,6 @@ int		pushwsep(t_parser_p pars)
 
 int		pushwnl(t_parser_p pars)
 {
-    ft_putendl("\npushwnl-------------------------");
     ft_pushonstack(pars);
     pars->state = pstate_wnl;
     return (0);
@@ -70,7 +65,6 @@ int		pushwnl(t_parser_p pars)
 
 int		pushout(t_parser_p pars)
 {
-    ft_putendl("\npushout-------------------------");
     if (-1 == ft_ldcdpush_back(pars->outlist, pars->tokin, 0))
 	return (-1);
 	pars->state = pstate_wno;
@@ -95,12 +89,12 @@ int		rpnend(t_parser_p pars)
 t_parsfunc	g_parsfunc_matrix[NB_PARS_STATES - 1][NB_PARSIN_GROUPS] =
 {
 	      /* usrinfilename	, redir		, cmdarg    , cmd	    , | &&      ||, bg	    ,   ;	, \n	, end*/
-/* start    */{NULL		, NULL		, NULL	    , &pushwno	    , NULL	, NULL	    , &pushwnl	, &pushwnl	, &rpnend},
-/* empty    */{NULL		, &pushwredirarg, &pushwno  , &pushwno	    , &pushwcmd	, &pushwsep , &pushwnl	, &pushwnl	, &rpnend},
+/* start    */{NULL		, NULL		, NULL	    , &pushwno	    , NULL	, NULL	    , &pushwnl	, &pushwsep	, &rpnend},
+/* empty    */{NULL		, &pushwredirarg, &pushwno  , &pushwno	    , &pushwcmd	, &pushwsep , &pushwnl	, &pushwsep	, &rpnend},
 /* wredirarg*/{&pushout		, NULL		, NULL	    , NULL	    , NULL	, NULL	    ,  NULL	,   NULL	,    NULL},
 /* wcmd	    */{NULL		, NULL		, NULL	    , &pushwno	    , NULL	, NULL	    ,   NULL	,   NULL	, NULL},
-/* wcmdorsep*/{NULL		, NULL		, NULL	    , &pushwno	    , NULL	, NULL	    ,  &pushwnl, &pushwnl	, &rpnend},
-/* wcmdornl*/{NULL		, NULL		, NULL	    , &pushwno	    , NULL	, NULL	    ,  NULL	, &pushwnl	, &rpnend},
+/* wcmdorsep*/{NULL		, NULL		, NULL	    , &pushwno	    , NULL	, NULL	    ,  &pushwnl, &pushwsep	, &rpnend},
+/* wcmdornl*/{NULL		, NULL		, NULL	    , &pushwno	    , NULL	, NULL	    ,  NULL	, &pushwsep	, &rpnend},
 };
 
 t_parser_p  ft_parsernew(t_ldcd toklist)
@@ -138,20 +132,8 @@ int	    ft_parsrpn(t_parser_p pars)
 
     while (pars->state != pstate_end)
     {
-	ft_putnbr(pars->state);
-    if (!(pars->tokin = ft_ldcdpop_front(pars->toklist)))
+        if (!(pars->tokin = ft_ldcdpop_front(pars->toklist)))
 	    return (-1);
-if ('l' == ft_getchar())
-{
-	ft_putendl("\n\nOUTLIST------------------");
-	ft_putldcd(pars->outlist, &ft_putvtoken);
-
-	ft_putendl("\n\nOpLIST------------------");
-	ft_putldcd(pars->oplist, &ft_putvtoken);
-
-	ft_putendl("\n\ntokLIST------------------");
-	ft_putldcd(pars->toklist, &ft_putvtoken);
-}
         if (0 > (ind = ft_getparsin_ind(pars->tokin->type))
 	    || !g_parsfunc_matrix[pars->state][ind])
 	    return (-2);

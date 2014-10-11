@@ -12,8 +12,8 @@ const char	*g_lexin_tab[NB_INPUT_GROUPS] =
     ";\n",
     SHELL_IFS,
     "\\",
-    "\'",
     "\"",
+    "\'",
     "",
     "\0"
 };

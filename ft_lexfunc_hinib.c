@@ -2,11 +2,14 @@
 
 int			ft_hinhib(t_lexer_p lex)
 {
-    if (lex->state != state_expr && lex->state != state_inhib)
-	    ft_flush(lex);
-    else if (lex->state == state_hinhib)
+    if (lex->state == state_hinhib)
 	ft_stack(lex);
-    lex->inhiblvl |= INHIB_LVL_HMULT;
+    else
+    {
+	lex->inhiblvl |= INHIB_LVL_HMULT;
+	if (lex->state != state_expr && lex->state != state_inhib && lex->state != state_hinhib)
+	    ft_flush(lex);
+    }
     lex->state = state_hinhib;
     return (0);
 }
